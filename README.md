@@ -1,11 +1,25 @@
-<div align="center">
+# AURA OS
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+**AURA OS v0.1** — an Android launcher concept built around a blue Liquid Glass visual language and lightweight productivity tools.
 
-  <h1>Built with AI Studio</h2>
+## Current MVP
+- Android Home launcher entry point (Android 12+).
+- Live clock and date.
+- Quick task list with completion state.
+- 25-minute focus timer.
+- App drawer with installed launchable apps and search.
+- GitHub Actions debug APK build.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## Build
+GitHub Actions runs on pushes to `main` and via **Actions → AURA OS Android APK → Run workflow**.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+The generated artifact is named `AURA-OS-v0.1-debug`.
 
-</div>
+## Requirements
+- JDK 17
+- Gradle 8.9
+- Android SDK platform 35 (downloaded by the Android Gradle Plugin)
+- Android 12 (API 31) or newer
+
+## Notes
+This is an installable Android launcher, not a replacement Android firmware/ROM. Choose **AURA OS** in Android's Home app chooser to use it as the default launcher.
