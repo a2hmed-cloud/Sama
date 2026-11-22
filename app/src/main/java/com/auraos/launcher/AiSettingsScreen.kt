@@ -60,13 +60,16 @@ private object AuraSecureConfig {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(name, encoded).apply()
     }
 
-    fun get(context: Context, name: String, fallback: String = ""): String = try {
-        val encoded = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(name, null) ?: return fallback
-        val packed = Base64.decode(encoded, Base64.NO_WRAP)
-        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
-        cipher.init(Cipher.DECRYPT_MODE, secretKey(), GCMParameterSpec(128, packed.copyOfRange(0, 12)))
-        String(cipher.doFinal(packed.copyOfRange(12, packed.size)), Charsets.UTF_8)
-    } catch (_: Exception) { fallback }
+    fun get(context: Context, name: String, fallback: String = ""): String {
+        return try {
+            val encoded = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(name, null)
+                ?: return fallback
+            val packed = Base64.decode(encoded, Base64.NO_WRAP)
+            val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            cipher.init(Cipher.DECRYPT_MODE, secretKey(), GCMParameterSpec(128, packed.copyOfRange(0, 12)))
+            String(cipher.doFinal(packed.copyOfRange(12, packed.size)), Charsets.UTF_8)
+        } catch (_: Exception) { fallback }
+    }
 }
 
 private object AuraAiApi {
