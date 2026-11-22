@@ -62,14 +62,15 @@ private fun AuraApp() {
             Box(Modifier.offset(x = (-80).dp, y = 430.dp).size(230.dp).blur(95.dp).background(Color(0xFF3478C8).copy(.16f), CircleShape))
             when (page) {
                 "apps" -> AppDrawer(onBack = { page = "home" })
-                else -> HomeScreen(onApps = { page = "apps" })
+                "settings" -> AiSettingsScreen(onBack = { page = "home" })
+                else -> HomeScreen(onApps = { page = "apps" }, onSettings = { page = "settings" })
             }
         }
     }
 }
 
 @Composable
-private fun HomeScreen(onApps: () -> Unit) {
+private fun HomeScreen(onApps: () -> Unit, onSettings: () -> Unit) {
     val context = LocalContext.current
     var now by remember { mutableStateOf(Date()) }
     var taskText by remember { mutableStateOf("") }
@@ -97,8 +98,13 @@ private fun HomeScreen(onApps: () -> Unit) {
                 Text("A U R A", color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold, letterSpacing = 4.sp)
                 Text("YOUR SPACE. YOUR FLOW.", color = Muted, fontSize = 9.sp, letterSpacing = 2.sp)
             }
-            Surface(color = Glass, shape = CircleShape, modifier = Modifier.size(42.dp)) {
-                Box(contentAlignment = Alignment.Center) { Icon(Icons.Outlined.WbSunny, null, tint = Cyan) }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Surface(color = Glass, shape = CircleShape, modifier = Modifier.size(42.dp)) {
+                    Box(contentAlignment = Alignment.Center) { Icon(Icons.Outlined.WbSunny, null, tint = Cyan) }
+                }
+                Surface(color = Glass, shape = CircleShape, modifier = Modifier.size(42.dp).clickable(onClick = onSettings)) {
+                    Box(contentAlignment = Alignment.Center) { Icon(Icons.Outlined.Settings, "AI settings", tint = Cyan) }
+                }
             }
         }
 
