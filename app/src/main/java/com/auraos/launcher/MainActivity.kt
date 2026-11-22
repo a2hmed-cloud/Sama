@@ -257,9 +257,13 @@ private fun AppDrawer(onBack: () -> Unit) {
                     val launch = context.packageManager.getLaunchIntentForPackage(app.packageName)
                     if (launch != null) context.startActivity(launch)
                 }.padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                    androidx.compose.foundation.Image(
-                        bitmap = android.graphics.drawable.DrawableToBitmap(app.icon),
-                        contentDescription = app.label,
+                    androidx.compose.ui.viewinterop.AndroidView(
+                        factory = { viewContext ->
+                            android.widget.ImageView(viewContext).apply {
+                                setImageDrawable(app.icon)
+                                scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+                            }
+                        },
                         modifier = Modifier.size(40.dp)
                     )
                     Text(app.label, color = Color.White, fontSize = 14.sp, modifier = Modifier.padding(start = 13.dp).weight(1f))
